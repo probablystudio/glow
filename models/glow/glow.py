@@ -21,12 +21,12 @@ class Glow(nn.Module):
         num_levels (int): Number of levels in the entire model.
         num_steps (int): Number of steps of flow for each level.
     """
-    def __init__(self, num_channels, num_levels, num_steps):
+    def __init__(self, in_channels, num_channels, num_levels, num_steps):
         super(Glow, self).__init__()
 
         # Use bounds to rescale images before converting to logits, not learned
         self.register_buffer('bounds', torch.tensor([0.9], dtype=torch.float32))
-        self.flows = _Glow(in_channels=4 * 3,  # RGB image after squeeze
+        self.flows = _Glow(in_channels=4 * in_channels,  # RGB image after squeeze
                            mid_channels=num_channels,
                            num_levels=num_levels,
                            num_steps=num_steps)
